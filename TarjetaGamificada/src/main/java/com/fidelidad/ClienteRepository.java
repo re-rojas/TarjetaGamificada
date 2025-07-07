@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClienteRepository {
-    // Usamos un mapa para simular una base de datos en memoria
+    // mapa para datos en memoria
     private final Map<String, Cliente> clientes = new HashMap<>();
 
     public void guardar(Cliente cliente) {
+        
+        if (cliente.getCorreo() == null || !cliente.getCorreo().contains("@")) {
+            throw new IllegalArgumentException("El formato del correo es inválido.");
+        }
         clientes.put(cliente.getId(), cliente);
     }
 
