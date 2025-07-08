@@ -1,0 +1,7 @@
+com\fidelidad\Nivel.class
+com\fidelidad\Compra.class
+com\fidelidad\FidelidadService.class
+com\fidelidad\Cliente.class
+com\fidelidad\ClienteRepository.class
+com\fidelidad\CompraRepository.class
+com\fidelidad\Main.class

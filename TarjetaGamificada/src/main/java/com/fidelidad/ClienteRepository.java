@@ -2,6 +2,8 @@ package com.fidelidad;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteRepository {
     // mapa para datos en memoria
@@ -18,4 +20,19 @@ public class ClienteRepository {
     public Cliente buscarPorId(String id) {
         return clientes.get(id);
     }
+
+    public List<Cliente> listarTodos() {
+        return new ArrayList<>(clientes.values());
+    }
+
+    public void actualizar(Cliente cliente) {
+        if (clientes.containsKey(cliente.getId())) {
+            clientes.put(cliente.getId(), cliente);
+        }
+    }
+
+    public void eliminar(String id) {
+        clientes.remove(id);
+    }
+
 }

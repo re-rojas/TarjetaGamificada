@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TarjetaGamificada</a> &gt; <a href="index.source.html" class="el_package">com.fidelidad</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.fidelidad;
+
+import java.util.Scanner;
+import java.util.List;
+import java.util.UUID;
+import java.time.LocalDate;
+
+<span class="nc" id="L8">public class Main {</span>
+
+    private static ClienteRepository clienteRepo;
+    private static CompraRepository compraRepo;
+    private static FidelidadService fidelidadService;
+<span class="nc" id="L13">    private static final Scanner scanner = new Scanner(System.in);</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L16">        clienteRepo = new ClienteRepository();</span>
+<span class="nc" id="L17">        compraRepo = new CompraRepository();</span>
+<span class="nc" id="L18">        fidelidadService = new FidelidadService(clienteRepo, compraRepo);</span>
+
+<span class="nc" id="L20">        System.out.println(&quot;¡Bienvenido al Sistema de Fidelidad Gamificada!&quot;);</span>
+
+        while (true) {
+<span class="nc" id="L23">            mostrarMenuPrincipal();</span>
+<span class="nc" id="L24">            int opcion = leerOpcion();</span>
+
+<span class="nc bnc" id="L26" title="All 5 branches missed.">            switch (opcion) {</span>
+                case 1:
+<span class="nc" id="L28">                    gestionarClientes();</span>
+<span class="nc" id="L29">                    break;</span>
+                case 2:
+<span class="nc" id="L31">                    gestionarCompras();</span>
+<span class="nc" id="L32">                    break;</span>
+                case 3:
+<span class="nc" id="L34">                    mostrarPuntosNivelCliente();</span>
+<span class="nc" id="L35">                    break;</span>
+                case 4:
+<span class="nc" id="L37">                    System.out.println(&quot;¡Gracias por usar el sistema. Adiós!&quot;);</span>
+<span class="nc" id="L38">                    return; // salir</span>
+                default:
+<span class="nc" id="L40">                    System.out.println(&quot;Opción no válida. Por favor, intente de nuevo.&quot;);</span>
+            }
+<span class="nc" id="L42">        }</span>
+    }
+
+    private static void mostrarMenuPrincipal() {
+<span class="nc" id="L46">        System.out.println(&quot;\n--- MENÚ PRINCIPAL ---&quot;);</span>
+<span class="nc" id="L47">        System.out.println(&quot;1. Gestión de Clientes&quot;);</span>
+<span class="nc" id="L48">        System.out.println(&quot;2. Gestión de Compras&quot;);</span>
+<span class="nc" id="L49">        System.out.println(&quot;3. Mostrar Puntos / Nivel de un Cliente&quot;);</span>
+<span class="nc" id="L50">        System.out.println(&quot;4. Salir&quot;);</span>
+<span class="nc" id="L51">        System.out.print(&quot;Seleccione una opción: &quot;);</span>
+<span class="nc" id="L52">    }</span>
+
+    private static int leerOpcion() {
+        try {
+<span class="nc" id="L56">            return Integer.parseInt(scanner.nextLine());</span>
+<span class="nc" id="L57">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L58">            return -1; // valor invalido si no es un número</span>
+        }
+    }
+
+    private static void gestionarClientes() {
+        while (true) {
+<span class="nc" id="L64">            System.out.println(&quot;\n--- GESTIÓN DE CLIENTES ---&quot;);</span>
+<span class="nc" id="L65">            System.out.println(&quot;1. Agregar nuevo cliente&quot;);</span>
+<span class="nc" id="L66">            System.out.println(&quot;2. Listar todos los clientes&quot;);</span>
+<span class="nc" id="L67">            System.out.println(&quot;3. Actualizar cliente existente&quot;);</span>
+<span class="nc" id="L68">            System.out.println(&quot;4. Eliminar cliente&quot;);</span>
+<span class="nc" id="L69">            System.out.println(&quot;5. Volver al menú principal&quot;);</span>
+<span class="nc" id="L70">            System.out.print(&quot;Seleccione una opción: &quot;);</span>
+
+<span class="nc" id="L72">            int opcion = leerOpcion();</span>
+<span class="nc bnc" id="L73" title="All 6 branches missed.">            switch (opcion) {</span>
+                case 1:
+<span class="nc" id="L75">                    agregarCliente();</span>
+<span class="nc" id="L76">                    break;</span>
+                case 2:
+<span class="nc" id="L78">                    listarClientes();</span>
+<span class="nc" id="L79">                    break;</span>
+                case 3:
+<span class="nc" id="L81">                    actualizarCliente();</span>
+<span class="nc" id="L82">                    break;</span>
+                case 4:
+<span class="nc" id="L84">                    eliminarCliente();</span>
+<span class="nc" id="L85">                    break;</span>
+                case 5:
+<span class="nc" id="L87">                    return; // Sale de este método y vuelve al menú principal</span>
+                default:
+<span class="nc" id="L89">                    System.out.println(&quot;Opción no válida.&quot;);</span>
+            }
+<span class="nc" id="L91">        }</span>
+    }
+
+    // En Main.java
+    private static void gestionarCompras() {
+        while (true) {
+<span class="nc" id="L97">            System.out.println(&quot;\n--- GESTIÓN DE COMPRAS ---&quot;);</span>
+<span class="nc" id="L98">            System.out.println(&quot;1. Registrar nueva compra&quot;);</span>
+<span class="nc" id="L99">            System.out.println(&quot;2. Ver historial de un cliente&quot;);</span>
+<span class="nc" id="L100">            System.out.println(&quot;3. Volver al menú principal&quot;);</span>
+<span class="nc" id="L101">            System.out.print(&quot;Seleccione una opción: &quot;);</span>
+
+<span class="nc" id="L103">            int opcion = leerOpcion();</span>
+<span class="nc bnc" id="L104" title="All 4 branches missed.">            switch (opcion) {</span>
+                case 1:
+<span class="nc" id="L106">                    registrarNuevaCompra();</span>
+<span class="nc" id="L107">                    break;</span>
+                case 2:
+<span class="nc" id="L109">                    verHistorialCliente();</span>
+<span class="nc" id="L110">                    break;</span>
+                case 3:
+<span class="nc" id="L112">                    return; // volver a menu</span>
+                default:
+<span class="nc" id="L114">                    System.out.println(&quot;Opción no válida.&quot;);</span>
+            }
+<span class="nc" id="L116">        }</span>
+    }
+
+    private static void mostrarPuntosNivelCliente() {
+<span class="nc" id="L120">        System.out.println(&quot;\n--- Consultar Puntos y Nivel ---&quot;);</span>
+<span class="nc" id="L121">        System.out.print(&quot;Ingrese el ID del cliente: &quot;);</span>
+<span class="nc" id="L122">        String idCliente = scanner.nextLine();</span>
+
+<span class="nc" id="L124">        Cliente cliente = clienteRepo.buscarPorId(idCliente);</span>
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (cliente == null) {</span>
+<span class="nc" id="L127">            System.out.println(&quot;Error: No se encontró un cliente con ese ID.&quot;);</span>
+<span class="nc" id="L128">            return;</span>
+        }
+
+<span class="nc" id="L131">        System.out.println(&quot;\n--- Estado del Cliente ---&quot;);</span>
+<span class="nc" id="L132">        System.out.println(&quot;Nombre: &quot; + cliente.getNombre());</span>
+<span class="nc" id="L133">        System.out.println(&quot;Puntos acumulados: &quot; + cliente.getPuntos());</span>
+<span class="nc" id="L134">        System.out.println(&quot;Nivel de fidelidad: &quot; + cliente.getNivel().name());</span>
+<span class="nc" id="L135">        System.out.println(&quot;--------------------------&quot;);</span>
+<span class="nc" id="L136">    }</span>
+
+    private static void agregarCliente() {
+<span class="nc" id="L139">        System.out.println(&quot;\n--- Agregar Nuevo Cliente ---&quot;);</span>
+<span class="nc" id="L140">        System.out.print(&quot;Nombre: &quot;);</span>
+<span class="nc" id="L141">        String nombre = scanner.nextLine();</span>
+<span class="nc" id="L142">        System.out.print(&quot;Correo electrónico: &quot;);</span>
+<span class="nc" id="L143">        String correo = scanner.nextLine();</span>
+
+        // generar id
+<span class="nc" id="L146">        String id = UUID.randomUUID().toString();</span>
+
+        try {
+<span class="nc" id="L149">            Cliente nuevoCliente = new Cliente(id, nombre, correo);</span>
+<span class="nc" id="L150">            clienteRepo.guardar(nuevoCliente);</span>
+<span class="nc" id="L151">            System.out.println(&quot;¡Cliente agregado con éxito! ID: &quot; + id);</span>
+<span class="nc" id="L152">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L153">            System.out.println(&quot;Error: &quot; + e.getMessage());</span>
+<span class="nc" id="L154">        }</span>
+<span class="nc" id="L155">    }</span>
+
+    private static void listarClientes() {
+<span class="nc" id="L158">        System.out.println(&quot;\n--- Listado de Clientes ---&quot;);</span>
+<span class="nc" id="L159">        List&lt;Cliente&gt; clientes = clienteRepo.listarTodos();</span>
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (clientes.isEmpty()) {</span>
+<span class="nc" id="L162">            System.out.println(&quot;No hay clientes registrados.&quot;);</span>
+<span class="nc" id="L163">            return;</span>
+        }
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        for (Cliente cliente : clientes) {</span>
+<span class="nc" id="L167">            System.out.printf(&quot;ID: %s | Nombre: %s | Correo: %s | Puntos: %d | Nivel: %s%n&quot;,</span>
+<span class="nc" id="L168">                cliente.getId(),</span>
+<span class="nc" id="L169">                cliente.getNombre(),</span>
+<span class="nc" id="L170">                cliente.getCorreo(),</span>
+<span class="nc" id="L171">                cliente.getPuntos(),</span>
+<span class="nc" id="L172">                cliente.getNivel().name()</span>
+            );
+<span class="nc" id="L174">        }</span>
+<span class="nc" id="L175">    }</span>
+
+    // En Main.java
+
+    private static void actualizarCliente() {
+<span class="nc" id="L180">        System.out.println(&quot;\n--- Actualizar Cliente Existente ---&quot;);</span>
+<span class="nc" id="L181">        System.out.print(&quot;Ingrese el ID del cliente a actualizar: &quot;);</span>
+<span class="nc" id="L182">        String id = scanner.nextLine();</span>
+
+<span class="nc" id="L184">        Cliente clienteAActualizar = clienteRepo.buscarPorId(id);</span>
+
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (clienteAActualizar == null) {</span>
+<span class="nc" id="L187">            System.out.println(&quot;Error: No se encontró un cliente con ese ID.&quot;);</span>
+<span class="nc" id="L188">            return;</span>
+        }
+
+<span class="nc" id="L191">        System.out.print(&quot;Nuevo nombre (dejar en blanco para no cambiar): &quot;);</span>
+<span class="nc" id="L192">        String nuevoNombre = scanner.nextLine();</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if (!nuevoNombre.isBlank()) {</span>
+<span class="nc" id="L194">            clienteAActualizar.setNombre(nuevoNombre);</span>
+        }
+
+<span class="nc" id="L197">        System.out.print(&quot;Nuevo correo (dejar en blanco para no cambiar): &quot;);</span>
+<span class="nc" id="L198">        String nuevoCorreo = scanner.nextLine();</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        if (!nuevoCorreo.isBlank()) {</span>
+<span class="nc" id="L200">            clienteAActualizar.setCorreo(nuevoCorreo);</span>
+        }
+
+        try {
+<span class="nc" id="L204">            clienteRepo.actualizar(clienteAActualizar);</span>
+<span class="nc" id="L205">            System.out.println(&quot;¡Cliente actualizado con éxito!&quot;);</span>
+<span class="nc" id="L206">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L207">            System.out.println(&quot;Error al actualizar: &quot; + e.getMessage());</span>
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">    }</span>
+
+    // En Main.java
+
+    private static void eliminarCliente() {
+<span class="nc" id="L214">        System.out.println(&quot;\n--- Eliminar Cliente ---&quot;);</span>
+<span class="nc" id="L215">        System.out.print(&quot;Ingrese el ID del cliente a eliminar: &quot;);</span>
+<span class="nc" id="L216">        String id = scanner.nextLine();</span>
+
+        // Verificamos primero si el cliente existe para dar un mejor feedback
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (clienteRepo.buscarPorId(id) == null) {</span>
+<span class="nc" id="L220">            System.out.println(&quot;Error: No se encontró un cliente con ese ID.&quot;);</span>
+<span class="nc" id="L221">            return;</span>
+        }
+
+<span class="nc" id="L224">        clienteRepo.eliminar(id);</span>
+<span class="nc" id="L225">        System.out.println(&quot;¡Cliente eliminado con éxito!&quot;);</span>
+<span class="nc" id="L226">    }</span>
+
+
+    private static void registrarNuevaCompra() {
+<span class="nc" id="L230">        System.out.println(&quot;\n--- Registrar Nueva Compra ---&quot;);</span>
+<span class="nc" id="L231">        System.out.print(&quot;Ingrese el ID del cliente: &quot;);</span>
+<span class="nc" id="L232">        String idCliente = scanner.nextLine();</span>
+
+<span class="nc" id="L234">        Cliente cliente = clienteRepo.buscarPorId(idCliente);</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (cliente == null) {</span>
+<span class="nc" id="L236">            System.out.println(&quot;Error: No se encontró un cliente con ese ID.&quot;);</span>
+<span class="nc" id="L237">            return;</span>
+        }
+
+<span class="nc" id="L240">        System.out.print(&quot;Ingrese el monto de la compra: &quot;);</span>
+        double monto;
+        try {
+<span class="nc" id="L243">            monto = Double.parseDouble(scanner.nextLine());</span>
+<span class="nc" id="L244">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L245">            System.out.println(&quot;Error: Monto no válido.&quot;);</span>
+<span class="nc" id="L246">            return;</span>
+<span class="nc" id="L247">        }</span>
+
+        // Llamamos al servicio para que aplique toda la lógica de negocio
+<span class="nc" id="L250">        fidelidadService.registrarCompra(idCliente, monto, LocalDate.now());</span>
+
+        // Mostramos un feedback útil al usuario
+<span class="nc" id="L253">        Cliente clienteActualizado = clienteRepo.buscarPorId(idCliente);</span>
+<span class="nc" id="L254">        System.out.println(&quot;¡Compra registrada con éxito!&quot;);</span>
+<span class="nc" id="L255">        System.out.printf(&quot;Nuevos datos del cliente -&gt; Puntos: %d | Nivel: %s%n&quot;,</span>
+<span class="nc" id="L256">            clienteActualizado.getPuntos(),</span>
+<span class="nc" id="L257">            clienteActualizado.getNivel().name()</span>
+        );
+<span class="nc" id="L259">    }</span>
+
+    // En Main.java
+
+    private static void verHistorialCliente() {
+<span class="nc" id="L264">        System.out.println(&quot;\n--- Ver Historial de Compras de un Cliente ---&quot;);</span>
+<span class="nc" id="L265">        System.out.print(&quot;Ingrese el ID del cliente: &quot;);</span>
+<span class="nc" id="L266">        String idCliente = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (clienteRepo.buscarPorId(idCliente) == null) {</span>
+<span class="nc" id="L269">            System.out.println(&quot;Error: No se encontró un cliente con ese ID.&quot;);</span>
+<span class="nc" id="L270">            return;</span>
+        }
+
+<span class="nc" id="L273">        List&lt;Compra&gt; historial = fidelidadService.obtenerComprasCliente(idCliente);</span>
+
+<span class="nc bnc" id="L275" title="All 2 branches missed.">        if (historial.isEmpty()) {</span>
+<span class="nc" id="L276">            System.out.println(&quot;Este cliente no tiene compras registradas.&quot;);</span>
+<span class="nc" id="L277">            return;</span>
+        }
+
+<span class="nc" id="L280">        System.out.println(&quot;--- Historial de: &quot; + clienteRepo.buscarPorId(idCliente).getNombre() + &quot; ---&quot;);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        for (Compra compra : historial) {</span>
+<span class="nc" id="L282">            System.out.printf(&quot;ID Compra: %s | Fecha: %s | Monto: $%,.2f%n&quot;,</span>
+<span class="nc" id="L283">                compra.getIdCompra(),</span>
+<span class="nc" id="L284">                compra.getFecha().toString(),</span>
+<span class="nc" id="L285">                compra.getMonto()</span>
+            );
+<span class="nc" id="L287">        }</span>
+<span class="nc" id="L288">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

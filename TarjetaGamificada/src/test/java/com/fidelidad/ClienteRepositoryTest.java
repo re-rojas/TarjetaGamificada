@@ -3,6 +3,8 @@ package com.fidelidad;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 class ClienteRepositoryTest {
 
     @Test
@@ -32,4 +34,54 @@ class ClienteRepositoryTest {
             repo.guardar(clienteInvalido);
         });
     }
+
+    @Test
+    void alGuardarVariosClientes_listarTodosDebeDevolverlos() {
+        // Arrange
+        ClienteRepository repo = new ClienteRepository();
+        Cliente cliente1 = new Cliente("id-1", "Ana", "ana@test.com");
+        Cliente cliente2 = new Cliente("id-2", "Luis", "luis@test.com");
+        repo.guardar(cliente1);
+        repo.guardar(cliente2);
+
+        // Act
+        List<Cliente> clientes = repo.listarTodos();
+
+        // Assert
+        assertNotNull(clientes);
+        assertEquals(2, clientes.size());
+    }
+
+    @Test
+    void alActualizarUnCliente_susDatosDebenCambiar() {
+        // Arrange
+        ClienteRepository repo = new ClienteRepository();
+        Cliente clienteOriginal = new Cliente("id-1", "Ana", "ana@test.com");
+        repo.guardar(clienteOriginal);
+
+        // Act
+        Cliente clienteActualizado = new Cliente("id-1", "Ana Garcia", "ana.garcia@test.com");
+        repo.actualizar(clienteActualizado);
+
+        // Assert
+        Cliente clienteEncontrado = repo.buscarPorId("id-1");
+        assertEquals("Ana Garcia", clienteEncontrado.getNombre());
+        assertEquals("ana.garcia@test.com", clienteEncontrado.getCorreo());
+    }
+
+    @Test
+    void alEliminarUnCliente_noDeberiaSerEncontrado() {
+        // Arrange
+        ClienteRepository repo = new ClienteRepository();
+        Cliente cliente = new Cliente("id-1", "Ana", "ana@test.com");
+        repo.guardar(cliente);
+
+        // Act
+        repo.eliminar("id-1");
+
+        // Assert
+        Cliente clienteEncontrado = repo.buscarPorId("id-1");
+        assertNull(clienteEncontrado);
+    }
+
 }
