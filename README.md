@@ -37,6 +37,10 @@ El siguiente comando ejecuta la suite completa de tests de JUnit 5.
 mvn test
 ```
 
+### Ejemplo de ejecución de pruebas exitosa
+
+![Ejecución de pruebas](data/tests.png)
+
 ### Ejecutar la Aplicación Principal
 Para iniciar el programa en la consola, utiliza el plugin `exec` de Maven:
 ```bash
@@ -44,6 +48,7 @@ mvn exec:java -Dexec.mainClass="com.fidelidad.Main"
 ```
 
 ## 4. Cobertura de Pruebas
+
 
 ### Reporte Visual de Cobertura
 ![Reporte de Cobertura](data/coverage.png)
